@@ -1,7 +1,7 @@
 import React from "react";
 import QRCode from "react-qr-code";
 
-const QRCodeGenerator = ({ isOpen, onClose, scoutingData }) => {
+const QRCodeGenerator = ({ isOpen, onClose, onNext, scoutingData }) => {
   if (!isOpen) return null;
 
   return (
@@ -24,7 +24,7 @@ const QRCodeGenerator = ({ isOpen, onClose, scoutingData }) => {
           </button>
           <button
             className="bg-green-500 text-white py-3 px-6 rounded hover:bg-green-700 text-lg w-1/2"
-            onClick={onClose}
+            onClick={onNext}
           >
             Next Match!
           </button>

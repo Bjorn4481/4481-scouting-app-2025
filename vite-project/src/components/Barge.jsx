@@ -1,12 +1,13 @@
 import React from "react";
 import Counter from "./Counter";
+import BargeImage from "../assets/BARGE.png";
 
 const Barge = ({ type, scoutingData, setScoutingData }) => {
   return (
     <div className={`reef flex h-[calc(100vh-4rem)] justify-between`}>
       <div className="reef-image flex justify-end items-center h-full">
         <img
-          src="/src/assets/BARGE.png"
+          src={BargeImage}
           alt="Barge"
           className="h-full w-auto rounded-lg shadow-lg"
         />

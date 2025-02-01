@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import QRCodeGenerator from "./QRCodeGenerator";
 
-const SubBar = ({scoutingData, setScoutingData}) => {
+const SubBar = ({
+  scoutingData,
+  setScoutingData,
+  configData,
+  setConfigData,
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleButtonClick = () => {
@@ -10,6 +15,18 @@ const SubBar = ({scoutingData, setScoutingData}) => {
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
+  };
+
+  const onNext = () => {
+    handleCloseDialog();
+    const currentMatchIndex = configData.matches.findIndex(
+      (match) => match.matchString === scoutingData.matchString
+    );
+    const newIndex = (currentMatchIndex + 1) % configData.matches.length;
+    setScoutingData({
+      ...scoutingData,
+      matchString: configData.matches[newIndex].matchString,
+    });
   };
 
   return (
@@ -30,7 +47,12 @@ const SubBar = ({scoutingData, setScoutingData}) => {
       </div>
 
       {isDialogOpen && (
-        <QRCodeGenerator isOpen={isDialogOpen} onClose={handleCloseDialog} scoutingData={scoutingData}/>
+        <QRCodeGenerator
+          isOpen={isDialogOpen}
+          onClose={handleCloseDialog}
+          onNext={onNext}
+          scoutingData={scoutingData}
+        />
       )}
     </div>
   );

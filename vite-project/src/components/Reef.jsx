@@ -1,5 +1,6 @@
 import React from "react";
 import Counter from "./Counter";
+import ReefImage from "../assets/REEF.png";
 
 const Reef = ({ type, scoutingData, setScoutingData }) => {
   return (
@@ -12,7 +13,7 @@ const Reef = ({ type, scoutingData, setScoutingData }) => {
       </div>
       <div className="reef-image flex justify-end items-center h-full">
         <img
-          src="/src/assets/REEF.png"
+          src={ReefImage}
           alt="Reef"
           className="h-full w-auto rounded-lg shadow-lg"
         />

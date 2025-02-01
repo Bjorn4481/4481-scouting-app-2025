@@ -31,10 +31,28 @@ const App = () => {
     comments: "",
   });
 
+  const [configData, setConfigData] = useState(
+    {
+      selectedRobot: "red1",
+      scouts: 
+      [
+        { name: "Bjorn"   },
+        { name: "Feije"   },
+        { name: "Gijs"    },
+      ],
+      matches: 
+      [
+        { matchString: "Q1",  blue1: "111",   blue2: "4481",  blue3: "4414",  red1: "254",  red2: "2910", red3: "118"   },
+        { matchString: "Q2",  blue1: "604",   blue2: "112",   blue3: "114",   red1: "5940", red2: "27",   red3: "16"    },
+        { matchString: "Q3",  blue1: "330",   blue2: "125",   blue3: "67",    red1: "71",   red2: "25",   red3: "7333"  },
+      ]
+    }
+);
+
   return (
     <div className="bg-[#111111] min-h-screen flex flex-col">
-      <TopBar scoutingData={scoutingData} setScoutingData={setScoutingData}/>
-      <SubBar scoutingData={scoutingData} setScoutingData={setScoutingData}/>
+      <TopBar scoutingData={scoutingData} setScoutingData={setScoutingData} configData={configData} setConfigData={setConfigData}/>
+      <SubBar scoutingData={scoutingData} setScoutingData={setScoutingData} configData={configData} setConfigData={setConfigData}/>
       <div className="flex-grow">
         <ScoutingInputDiv scoutingData={scoutingData} setScoutingData={setScoutingData} />
       </div>
