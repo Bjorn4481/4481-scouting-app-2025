@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+body {
+    color: white;
+}
+/* div {
+    border: 1px solid white;
+} */
