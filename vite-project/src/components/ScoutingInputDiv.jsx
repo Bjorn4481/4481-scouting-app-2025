@@ -9,7 +9,7 @@ const ScoutingInputDiv = ({ scoutingData, setScoutingData }) => {
         <Reef type="auto" scoutingData={scoutingData} setScoutingData={setScoutingData} />
       </div>
       <div className="flex-1">
-        <Barge />
+        <Barge type="auto" scoutingData={scoutingData} setScoutingData={setScoutingData} />
       </div>
     </div>
   );

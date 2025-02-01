@@ -8,19 +8,25 @@ import ScoutingInputDiv from "./components/ScoutingInputDiv";
 const App = () => {
   const [scoutingData, setScoutingData] = useState({
     scoutName: "",
-    teamNumber: "",
-    matchString: "",
+    teamNumber: "4481",
+    matchString: "Q1",
     auto: {
       L4: 0,
       L3: 0,
       L2: 0,
       L1: 0,
+      Net: 0,
+      Remove: 0,
+      Processor: 0,
     },
     teleop: {
       L4: 0,
       L3: 0,
       L2: 0,
       L1: 0,
+      Net: 0,
+      Remove: 0,
+      Processor: 0,
     },
     comments: "",
   });

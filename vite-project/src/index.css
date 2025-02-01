@@ -3,6 +3,6 @@
 body {
     color: white;
 }
-/* div {
-    border: 1px solid white;
-} */
+video {
+    transform: scaleX(-1);
+}
