@@ -22,7 +22,9 @@ const SubBar = ({
     const currentMatchIndex = configData.matches.findIndex(
       (match) => match.matchString === scoutingData.matchString
     );
-    const newIndex = (currentMatchIndex + 1) % configData.matches.length;
+    const newIndex = currentMatchIndex === configData.matches.length - 1 
+      ? currentMatchIndex 
+      : currentMatchIndex + 1;
     setScoutingData({
       ...scoutingData,
       matchString: configData.matches[newIndex].matchString,
