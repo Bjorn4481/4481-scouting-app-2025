@@ -14,27 +14,32 @@ const QRCodeScanner = ({configData, setConfigData, setIsScannerDialogOpen}) => {
         }
     };
 
+    // Temporary bypass for testing without scanning QR code
+    const handleTestButtonClick = () => {
+        const testData = JSON.stringify({
+            selectedRobot: "blue1",
+            scouts: [
+                { name: "Bjorn" },
+                { name: "Feije" },
+                { name: "Gijs" },
+                { name: "Jesse" },
+                { name: "Joris" },
+                { name: "Koen" },
+                { name: "Lars" },
+            ],
+            matches: [
+                { matchString: "Q1", blue1: "330", blue2: "125", blue3: "67", red1: "71", red2: "25", red3: "7333" },
+                { matchString: "Q2", blue1: "108", blue2: "971", blue3: "321", red1: "610", red2: "2056", red3: "1114" },
+            ],
+        });
+        saveData(testData);
+        setScannedData(testData);
+        setIsScannerDialogOpen(false);
+    };
+
     // Save the scanned data to the configData
     const saveData = (extractedData) => {
-        // TODO: JSON Placeholder
-        const data = {
-            selectedRobot: "blue1",
-            scouts:
-            [
-                { name: "Bjorn"   },
-                { name: "Feije"   },
-                { name: "Gijs"    },
-                { name: "Jesse"   },
-                { name: "Joris"   },
-                { name: "Koen"    },
-                { name: "Lars"    },
-            ],
-            matches:
-            [
-                { matchString: "Q1",  blue1: "330",   blue2: "125",   blue3: "67",    red1: "71",   red2: "25",   red3: "7333"  },
-                { matchString: "Q2",  blue1: "108",   blue2: "971",   blue3: "321",    red1: "610",   red2: "2056",   red3: "1114"  },
-            ]
-        }
+        const data = JSON.parse(extractedData);
         setConfigData(data);
     };
 
@@ -49,6 +54,9 @@ const QRCodeScanner = ({configData, setConfigData, setIsScannerDialogOpen}) => {
 
             {/* Show camera scanner */}
             <Scanner onScan={handleCameraScan} onError={handleCameraError} allowMultiple={true} scanDelay={4481} />
+            <button onClick={handleTestButtonClick} className="bg-green-500 text-white py-3 px-6 rounded hover:bg-green-700 text-lg w-1/2">
+                <span className="text-sm">Test</span>
+            </button>
         </div>
     );
 };

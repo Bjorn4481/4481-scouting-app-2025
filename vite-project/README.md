@@ -1,3 +1,5 @@
 # 4481 Scouting App 2025
 
-documentation => To Do
+## TODO's:
+
+- Fix config to main screen scoutingData update (low prio)

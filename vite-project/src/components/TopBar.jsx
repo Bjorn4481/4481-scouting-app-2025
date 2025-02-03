@@ -25,6 +25,7 @@ const TopBar = ({
     setScoutingData({
       ...scoutingData,
       matchString: configData.matches[newIndex].matchString,
+      teamNumber: configData.matches[newIndex][configData.selectedRobot],
     });
   };
 
@@ -36,15 +37,19 @@ const TopBar = ({
     setScoutingData({
       ...scoutingData,
       matchString: configData.matches[newIndex].matchString,
+      teamNumber: configData.matches[newIndex][configData.selectedRobot],
     });
   };
 
   useEffect(() => {
     const selectElement = document.querySelector(".user-dropdown");
+    console.log("TEST1")
     if (selectElement) {
       setScoutingData({
         ...scoutingData,
         scoutName: selectElement.value,
+        matchString: configData.matches[0].matchString,
+        teamNumber: configData.matches[0][configData.selectedRobot],
       });
     }
   }, []);
@@ -83,7 +88,7 @@ const TopBar = ({
   }, []);
 
   return (
-    <div className="topbar flex items-center h-16 px-4 border border-white rounded-lg p-2 m-1">
+    <div className="topbar flex items-center h-16 px-4 p-2 m-1">
       <div>
         <img src={Logo} alt="TR Logo" className="logo h-12" />
       </div>
@@ -199,7 +204,13 @@ const TopBar = ({
             />
             <button
               className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 mx-auto block"
-              onClick={() => setIsScannerDialogOpen(false)}
+              onClick={() => {
+                  setIsScannerDialogOpen(false)
+                  scoutingData.matchString = configData.matches[0].matchString
+                  scoutingData.teamNumber = configData.matches[0][configData.selectedRobot]
+                  setScoutingData(scoutingData)
+                }
+              }
             >
               Close
             </button>
