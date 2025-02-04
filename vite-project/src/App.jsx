@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopBar from "./components/TopBar";
 import SubBar from "./components/SubBar";
 import ScoutingInputDiv from "./components/ScoutingInputDiv";
@@ -7,7 +7,7 @@ const App = () => {
   const [timer, setTimer] = useState(null);
   const [state, setState] = useState("Start Match");
 
-  const [scoutingData, setScoutingData] = useState({
+  const initialScoutingData = {
     scoutName: "",
     teamNumber: "",
     matchString: "",
@@ -30,9 +30,9 @@ const App = () => {
       Processor: 0,
     },
     comments: "",
-  });
+  };
 
-  const [configData, setConfigData] = useState({
+  const initialConfigData = {
     selectedRobot: "red1",
     scouts: [{ name: "Bjorn" }, { name: "Feije" }, { name: "Gijs" }],
     matches: [
@@ -64,7 +64,27 @@ const App = () => {
         red3: "7333",
       },
     ],
+  };
+
+  const [scoutingData, setScoutingData] = useState(() => {
+    const savedData = localStorage.getItem("scoutingData");
+    return savedData ? JSON.parse(savedData) : initialScoutingData;
   });
+
+  const [configData, setConfigData] = useState(() => {
+    const savedData = localStorage.getItem("configData");
+    return savedData ? JSON.parse(savedData) : initialConfigData;
+  });
+
+  // Save scoutingData to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("scoutingData", JSON.stringify(scoutingData));
+  }, [scoutingData]);
+
+  // Save configData to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("configData", JSON.stringify(configData));
+  }, [configData]);
 
   return (
     <div className="bg-[#111111] min-h-screen flex flex-col">
