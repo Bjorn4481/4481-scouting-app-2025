@@ -5,7 +5,7 @@ import ScoutingInputDiv from "./components/ScoutingInputDiv";
 
 const App = () => {
   const [timer, setTimer] = useState(null);
-  const [state, setState] = useState("Ready");
+  const [state, setState] = useState("Start Match");
 
   const [scoutingData, setScoutingData] = useState({
     scoutName: "",

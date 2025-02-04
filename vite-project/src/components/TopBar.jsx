@@ -43,7 +43,6 @@ const TopBar = ({
 
   useEffect(() => {
     const selectElement = document.querySelector(".user-dropdown");
-    console.log("TEST1")
     if (selectElement) {
       setScoutingData({
         ...scoutingData,

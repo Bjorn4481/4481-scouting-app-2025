@@ -22,11 +22,11 @@ const ScoutingInputDiv = ({ scoutingData, setScoutingData, state, configData }) 
         </div>
       </div>
     );
-  } else if (state === "Ready") {
+  } else if (state === "Start Match") {
     return (
       <div className="scouting-input-div text-5xl flex flex-col items-center justify-center" style={{ marginTop: '15%' }}>
       <span className="mb-4">{`Hey ${scoutingData.scoutName}!`}</span>
-      <span className="mb-10">Click <span className="text-green-500">Ready</span> to Start Scouting</span>
+      <span className="mb-10">Click <span className="text-green-500">Start Match</span> to Start Scouting</span>
       <span>Match: {scoutingData.matchString}</span>
       <span>Team: <span className={`${configData.selectedRobot.includes("red") ? "text-red-500" : "text-blue-500"}`}>{scoutingData.teamNumber}</span></span>
       </div>
