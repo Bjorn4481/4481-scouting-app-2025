@@ -2,11 +2,9 @@
 
 ## TODO's:
 
-- Fix config to main screen scoutingData update (low prio)
-- Resolution Tablet
+- Resolution Tablet update
 - Auto/Teleop duidelijker
 - QR Code knop duidelijker
-- Data cachen
 - Drop, defense toevoegen
 - Comments in QR code 
 - hard cap anders maken
