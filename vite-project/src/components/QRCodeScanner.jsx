@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
-const QRCodeScanner = ({configData, setConfigData, setIsScannerDialogOpen}) => {
+const QRCodeScanner = ({configData, setConfigData, scoutingData, setScoutingData, setIsScannerDialogOpen}) => {
     const [scannedData, setScannedData] = useState("");
 
     // Handle QR code from camera
@@ -11,6 +11,10 @@ const QRCodeScanner = ({configData, setConfigData, setIsScannerDialogOpen}) => {
             saveData(extractedData);
             setScannedData(extractedData);
             setIsScannerDialogOpen(false);
+            setScoutingData({
+                "matches": {
+                }
+              });
         }
     };
 
@@ -35,6 +39,10 @@ const QRCodeScanner = ({configData, setConfigData, setIsScannerDialogOpen}) => {
         saveData(testData);
         setScannedData(testData);
         setIsScannerDialogOpen(false);
+        setScoutingData({
+            "matches": {
+            }
+          });
     };
 
     // Save the scanned data to the configData

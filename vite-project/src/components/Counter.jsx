@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
 
-// Utility function to update nested fields
-const updateNestedField = (obj, path, value) => {
-  const keys = path.split(".");
-  const lastKey = keys.pop();
-  const lastObj = keys.reduce((obj, key) => obj[key], obj);
-  lastObj[lastKey] = value;
-};
-
-const Counter = ({ path, scoutingData, setScoutingData }) => {
+const Counter = ({ path, currentMatchString, scoutingData, setScoutingData }) => {
   const [count, setCount] = useState(0);
-
+  const phase = path.split(".")[0];
+  const action = path.split(".")[1];
+  
   useEffect(() => {
-    const keys = path.split(".");
-    const value = keys.reduce((obj, key) => obj[key], scoutingData);
-    setCount(value);
-  }, [path, scoutingData]);
+    const currentMatch = scoutingData.matches[currentMatchString];
+    const currentCount = currentMatch?.[phase]?.[action] || 0;
+    setCount(currentCount);
+  }, [currentMatchString, scoutingData, path]);
 
   const updateScoutingData = (newCount) => {
-    setScoutingData((prevData) => {
-      const newData = { ...prevData };
-      updateNestedField(newData, path, newCount);
-      return newData;
-    });
-  };
+    setScoutingData((prev) => ({
+      ...prev,
+      matches: {
+        ...prev.matches,
+        [currentMatchString]: {
+          ...prev.matches[currentMatchString],
+          [phase]: {
+            ...prev.matches[currentMatchString][phase],
+            [action]: newCount,
+          },
+        },
+      },
+    }));
+  }
 
   const handleIncrement = () => {
     const newCount = Math.min(count + 1, 12);
@@ -39,20 +41,23 @@ const Counter = ({ path, scoutingData, setScoutingData }) => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="flex items-center space-x-6 bg-gray-800 p-6 rounded-lg shadow-lg">
-        <button
-          className="bg-red-600 hover:bg-red-700 text-white font-bold text-4xl px-6 py-4 rounded transition duration-300"
-          onClick={handleDecrement}
-        >
-          -
-        </button>
-        <span className="text-white text-8xl font-bold">{count}</span>
-        <button
-          className="bg-green-600 hover:bg-green-700 text-white font-bold text-4xl px-6 py-4 rounded transition duration-300"
-          onClick={handleIncrement}
-        >
-          +
-        </button>
+      <div className="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-lg">
+        <span className="text-white text-xl font-semibold">{phase}: {action}</span>
+        <div className="flex items-center space-x-6">
+          <button
+            className="bg-red-600 hover:bg-red-700 text-white font-bold text-4xl px-6 py-4 rounded transition duration-300"
+            onClick={handleDecrement}
+          >
+            -
+          </button>
+          <span className="text-white text-8xl font-bold">{count}</span>
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white font-bold text-4xl px-6 py-4 rounded transition duration-300"
+            onClick={handleIncrement}
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   );

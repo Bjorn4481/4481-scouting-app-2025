@@ -3,6 +3,8 @@ import QRCodeScanner from "./QRCodeScanner";
 import Logo from "../assets/TR-Logo.png";
 
 const TopBar = ({
+  currentMatchString,
+  setCurrentMatchString,
   scoutingData,
   setScoutingData,
   configData,
@@ -10,49 +12,91 @@ const TopBar = ({
 }) => {
   const [isScannerDialogOpen, setIsScannerDialogOpen] = useState(false);
 
+  // Update scoutName of current match in scoutingData whenever the user changes
   const onUserChange = (e) => {
-    setScoutingData({
-      ...scoutingData,
-      scoutName: e.target.value,
-    });
+    // Update scoutName of current match in scoutingData
+    setScoutingData((prev) => ({
+      ...prev,
+      matches: {
+        ...prev.matches,
+        [currentMatchString]: {
+          ...prev.matches[currentMatchString],
+          scoutName: e.target.value,
+        },
+      },
+    }));
   };
 
+  // Handle previous match button click
   const handlePrevMatch = () => {
+    // get previous match from configData and setCurrentMatchString
     const currentMatchIndex = configData.matches.findIndex(
-      (match) => match.matchString === scoutingData.matchString
+      (match) => match.matchString === currentMatchString
     );
     const newIndex = (currentMatchIndex - 1 + configData.matches.length) % configData.matches.length;
-    setScoutingData({
-      ...scoutingData,
-      matchString: configData.matches[newIndex].matchString,
-      teamNumber: configData.matches[newIndex][configData.selectedRobot],
-    });
+    setCurrentMatchString(configData.matches[newIndex].matchString);
   };
-
+  
+  // Handle next match button click
   const handleNextMatch = () => {
+    // get next match from configData and setCurrentMatchString
     const currentMatchIndex = configData.matches.findIndex(
-      (match) => match.matchString === scoutingData.matchString
+      (match) => match.matchString === currentMatchString
     );
-    const newIndex = (currentMatchIndex + 1) % configData.matches.length;
-    setScoutingData({
-      ...scoutingData,
-      matchString: configData.matches[newIndex].matchString,
-      teamNumber: configData.matches[newIndex][configData.selectedRobot],
-    });
+    const newIndex = (currentMatchIndex + 1 + configData.matches.length) % configData.matches.length;
+    setCurrentMatchString(configData.matches[newIndex].matchString);
   };
 
+  // Update scoutingData whenever currentMatchString changes
   useEffect(() => {
     const selectElement = document.querySelector(".user-dropdown");
     if (selectElement) {
-      setScoutingData({
-        ...scoutingData,
-        scoutName: selectElement.value,
-        matchString: configData.matches[0].matchString,
-        teamNumber: configData.matches[0][configData.selectedRobot],
+      // Update scoutName of current match in scoutingData only if it doesn't already exist
+      setScoutingData((prev) => {
+        const currentMatch = prev.matches[currentMatchString];
+        if (!currentMatch || !currentMatch.scoutName) {
+          return {
+            ...prev,
+            matches: {
+              ...prev.matches,
+              [currentMatchString]: {
+                ...currentMatch,
+                scoutName: selectElement.value,
+                teamNumber: configData.matches.find(
+                  (match) => match.matchString === currentMatchString
+                )[configData.selectedRobot],
+                auto: {
+                  L4: 0,
+                  L3: 0,
+                  L2: 0,
+                  L1: 0,
+                  Net: 0,
+                  Remove: 0,
+                  Processor: 0,
+                },
+                teleop: {
+                  L4: 0,
+                  L3: 0,
+                  L2: 0,
+                  L1: 0,
+                  Net: 0,
+                  Remove: 0,
+                  Processor: 0,
+                },
+                comments: "",
+              },
+            },
+          };
+        } else {
+          // Set the value of the user-dropdown to the existing scoutName
+          selectElement.value = currentMatch.scoutName;
+        }
+        return prev;
       });
     }
-  }, []);
+  }, [currentMatchString, scoutingData]);
 
+  // Add long press event listener to the logo to open the QR code scanner dialog
   useEffect(() => {
     let pressTimer;
     const logoElement = document.querySelector(".logo");
@@ -114,7 +158,7 @@ const TopBar = ({
           </button>
         </div>
         <div className="info text-white text-lg p-2">
-          <span>{scoutingData.matchString}</span>
+          <span>{currentMatchString}</span>
         </div>
         <div className="info text-white text-lg bg-[#ff6600] rounded-r-lg">
           <button
@@ -132,7 +176,7 @@ const TopBar = ({
       >
         <span>
           {configData.matches.find(
-            (match) => match.matchString === scoutingData.matchString
+            (match) => match.matchString === currentMatchString
           )?.red1}
         </span>
       </div>
@@ -143,7 +187,7 @@ const TopBar = ({
       >
         <span>
           {configData.matches.find(
-            (match) => match.matchString === scoutingData.matchString
+            (match) => match.matchString === currentMatchString
           )?.red2}
         </span>
       </div>
@@ -154,7 +198,7 @@ const TopBar = ({
       >
         <span>
           {configData.matches.find(
-            (match) => match.matchString === scoutingData.matchString
+            (match) => match.matchString === currentMatchString
           )?.red3}
         </span>
       </div>
@@ -165,7 +209,7 @@ const TopBar = ({
       >
         <span>
           {configData.matches.find(
-            (match) => match.matchString === scoutingData.matchString
+            (match) => match.matchString === currentMatchString
           )?.blue1}
         </span>
       </div>
@@ -176,7 +220,7 @@ const TopBar = ({
       >
         <span>
           {configData.matches.find(
-            (match) => match.matchString === scoutingData.matchString
+            (match) => match.matchString === currentMatchString
           )?.blue2}
         </span>
       </div>
@@ -187,7 +231,7 @@ const TopBar = ({
       >
         <span>
           {configData.matches.find(
-            (match) => match.matchString === scoutingData.matchString
+            (match) => match.matchString === currentMatchString
           )?.blue3}
         </span>
       </div>
@@ -199,15 +243,14 @@ const TopBar = ({
             <QRCodeScanner
               configData={configData}
               setConfigData={setConfigData}
+              scoutingData={scoutingData}
+              setScoutingData={setScoutingData}
               setIsScannerDialogOpen={setIsScannerDialogOpen}
             />
             <button
               className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 mx-auto block"
               onClick={() => {
-                  setIsScannerDialogOpen(false)
-                  scoutingData.matchString = configData.matches[0].matchString
-                  scoutingData.teamNumber = configData.matches[0][configData.selectedRobot]
-                  setScoutingData(scoutingData)
+                  setIsScannerDialogOpen(false);
                 }
               }
             >

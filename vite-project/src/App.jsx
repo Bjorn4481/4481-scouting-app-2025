@@ -7,31 +7,6 @@ const App = () => {
   const [timer, setTimer] = useState(null);
   const [state, setState] = useState("Start Match");
 
-  const initialScoutingData = {
-    scoutName: "",
-    teamNumber: "",
-    matchString: "",
-    auto: {
-      L4: 0,
-      L3: 0,
-      L2: 0,
-      L1: 0,
-      Net: 0,
-      Remove: 0,
-      Processor: 0,
-    },
-    teleop: {
-      L4: 0,
-      L3: 0,
-      L2: 0,
-      L1: 0,
-      Net: 0,
-      Remove: 0,
-      Processor: 0,
-    },
-    comments: "",
-  };
-
   const initialConfigData = {
     selectedRobot: "red1",
     scouts: [{ name: "Bjorn" }, { name: "Feije" }, { name: "Gijs" }],
@@ -66,36 +41,55 @@ const App = () => {
     ],
   };
 
-  const [scoutingData, setScoutingData] = useState(() => {
-    const savedData = localStorage.getItem("scoutingData");
-    return savedData ? JSON.parse(savedData) : initialScoutingData;
-  });
+  const initialScoutingData = {
+    "matches": {
+    }
+  };
 
   const [configData, setConfigData] = useState(() => {
     const savedData = localStorage.getItem("configData");
     return savedData ? JSON.parse(savedData) : initialConfigData;
   });
 
-  // Save scoutingData to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("scoutingData", JSON.stringify(scoutingData));
-  }, [scoutingData]);
+  const [currentMatchString, setCurrentMatchString] = useState(() => {
+    const savedData = localStorage.getItem("currentMatchString");
+    return savedData ? savedData : initialConfigData.matches[0].matchString;
+  });
+
+  const [scoutingData, setScoutingData] = useState(() => {
+    const savedData = localStorage.getItem("scoutingData");
+    return savedData ? JSON.parse(savedData) : initialScoutingData;
+  });
 
   // Save configData to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("configData", JSON.stringify(configData));
   }, [configData]);
 
+  // Save currentMatchString to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("currentMatchString", currentMatchString);
+  }, [currentMatchString]);
+
+  // Save scoutingData to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("scoutingData", JSON.stringify(scoutingData));
+  }, [scoutingData]);
+
   return (
     <div className="bg-[#111111] min-h-screen flex flex-col">
       <div className="border-2 border-white rounded-lg">
         <TopBar
+          currentMatchString={currentMatchString}
+          setCurrentMatchString={setCurrentMatchString}
           scoutingData={scoutingData}
           setScoutingData={setScoutingData}
           configData={configData}
           setConfigData={setConfigData}
         />
         <SubBar
+          currentMatchString={currentMatchString}
+          setCurrentMatchString={setCurrentMatchString}
           scoutingData={scoutingData}
           setScoutingData={setScoutingData}
           configData={configData}
@@ -108,6 +102,8 @@ const App = () => {
       </div>
       <div className="flex-grow">
         <ScoutingInputDiv
+          currentMatchString={currentMatchString}
+          setCurrentMatchString={setCurrentMatchString}
           scoutingData={scoutingData}
           setScoutingData={setScoutingData}
           state={state}

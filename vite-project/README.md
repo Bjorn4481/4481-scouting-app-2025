@@ -9,3 +9,4 @@
 - Data cachen
 - Drop, defense toevoegen
 - Comments in QR code 
+- hard cap anders maken
