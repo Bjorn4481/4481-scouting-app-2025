@@ -7,4 +7,3 @@
 - QR Code knop duidelijker
 - Drop, defense toevoegen
 - Comments in QR code 
-- hard cap anders maken

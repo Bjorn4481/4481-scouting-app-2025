@@ -18,18 +18,21 @@ const Barge = ({ type, currentMatchString, scoutingData, setScoutingData }) => {
           currentMatchString={currentMatchString}
           scoutingData={scoutingData}
           setScoutingData={setScoutingData}
+          maxCount={type === "auto" ? 6 : 18}
         />
         <Counter
           path={`${type}.Remove`}
           currentMatchString={currentMatchString}
           scoutingData={scoutingData}
           setScoutingData={setScoutingData}
+          maxCount={type === "auto" ? 6 : 6}
         />
         <Counter
           path={`${type}.Processor`}
           currentMatchString={currentMatchString}
           scoutingData={scoutingData}
           setScoutingData={setScoutingData}
+          maxCount={type === "auto" ? 9 : 9}
         />
       </div>
     </div>
