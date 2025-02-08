@@ -71,7 +71,7 @@ const SubBar = ({
           {state === "Start Match"
             ? "Start Match"
             : state === "auto" || state === "teleop"
-            ? "QR Code"
+            ? "Submit"
             : ""}
         </button>
       </div>
@@ -93,7 +93,16 @@ const SubBar = ({
           isOpen={isDialogOpen}
           onClose={onClose}
           onNext={onNext}
+          currentMatchString={currentMatchString}
+          setCurrentMatchString={setCurrentMatchString}
           scoutingData={scoutingData}
+          setScoutingData={setScoutingData}
+          configData={configData}
+          setConfigData={setConfigData}
+          timer={timer}
+          setTimer={setTimer}
+          state={state}
+          setState={setState}
         />
       )}
     </div>
